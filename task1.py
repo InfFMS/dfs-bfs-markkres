@@ -20,3 +20,21 @@
 #
 # Пример выходных данных
 # [1, 2, 4, 3, 5]  # Возможен и другой порядок, зависящий от реализации DFS
+graph = {
+    1: [2, 3],
+    2: [1, 4],
+    3: [1, 5],
+    4: [2],
+    5: [3]
+}
+start = 1
+def DFS(graph,start,visited=None):
+    if visited is None:
+        visited=set()
+    visited.add(start)
+    print(start, end=" ")
+    for i in graph.get(start,[]):
+        if i not in visited:
+            DFS(graph,i,visited)
+    return visited
+DFS(graph,start)

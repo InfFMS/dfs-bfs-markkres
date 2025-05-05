@@ -60,3 +60,34 @@
 # 5: [5]
 # 6: [6]
 # 7: [7]
+def DFS(graph,start,visited=None):
+    if visited is None:
+        visited=set()
+    visited.add(start)
+    poddelca.append(start)
+    for i in graph.get(start,[]):
+        if i not in visited:
+            DFS(graph,i,visited)
+    return visited
+
+N,M=map(int,input().split())
+Dict={i:[] for i in range(1,N+1)}
+#print(Dict)
+for _ in range(M):
+    a,b=map(int,input().split())
+    Dict[a].append(b)
+    Dict[b].append(a)
+#print(Dict)
+
+mas=[]
+poddelca=[]
+DFS(Dict,1)
+mas.append(poddelca)
+poddelca=[]
+for i in range(1,N+1):
+    for j in range(len(mas)):
+        if i not in mas[j]:
+            DFS(Dict,j)
+            mas.append(poddelca)
+            poddelca=[]
+print(mas)
