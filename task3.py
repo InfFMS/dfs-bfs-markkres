@@ -16,3 +16,22 @@ graf = {"A" : ["B", "C"],
 # 5. Обрабатываем D → результат [A,B,D]
 # 6. Обрабатываем C → результат [A,B,D,C]
 # 7. Все вершины обработаны → сортировка завершена
+In={}
+for i in graf:
+    In[i]=0
+for i in graf:
+    for j in graf[i]:
+        In[j]=In.get(j)+1
+l=[]
+for i in graf:
+    if In[i]==0:
+        l.append(i)
+res=[]
+while l!=[]:
+    Now=l.pop(0)
+    res.append(Now)
+    for i in graf[Now]:
+        In[i]-=1
+        if In[i]==0:
+            l.append(i)
+print(res)

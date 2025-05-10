@@ -31,3 +31,29 @@
 # 1 → 2 → 3 → 1 (цикл!)
 # Вывод:
 # -1
+N,M=map(int,input().split())
+graf={i:[] for i in range(1,N+1)}
+
+for _ in range(M):
+    u,v=map(int,input().split())
+    graf[u].append(v)
+In={}
+for i in graf:
+    In[i]=0
+for i in graf:
+    for j in graf[i]:
+        In[j]=In.get(j)+1
+l=[]
+for i in graf:
+    if In[i]==0:
+        l.append(i)
+res=[]
+while l!=[]:
+    Now=l.pop(0)
+    res.append(Now)
+    for i in graf[Now]:
+        In[i]-=1
+        if In[i]==0:
+            l.append(i)
+if len(res)==len(graf):print(res)
+else: print(-1)

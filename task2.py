@@ -60,3 +60,38 @@
 # 5: [5]
 # 6: [6]
 # 7: [7]
+def dfs(graph,start,visited,component):
+    visited.add(start)
+    component.append(start)
+    for i in graph[start]:
+        if i not in visited:
+            dfs(graph,i,visited,component)
+
+N,M=map(int,input().split())
+graph={i:[] for i in range(1,N+1)}
+
+for _ in range(M):
+    u,v=map(int,input().split())
+    graph[u].append(v)
+    graph[v].append(u)
+
+start,end=map(int,input().split())
+
+visited=set()
+All=[]
+
+for i in range(1,N+1):
+    if i not in visited:
+        component=[]
+        dfs(graph,i,visited,component)
+        All.append(sorted(component))
+
+
+YN=any(start in i and end in i for i in All)
+if YN: print("YES")
+else: print("NO")
+
+print(len(All))
+
+for i, j in enumerate(All,1):
+    print(str(i)+': '+str(j))
