@@ -60,34 +60,38 @@
 # 5: [5]
 # 6: [6]
 # 7: [7]
-def DFS(graph,start,visited=None):
-    if visited is None:
-        visited=set()
+def dfs(graph,start,visited,component):
     visited.add(start)
-    poddelca.append(start)
-    for i in graph.get(start,[]):
+    component.append(start)
+    for i in graph[start]:
         if i not in visited:
-            DFS(graph,i,visited)
-    return visited
+            dfs(graph,i,visited,component)
 
 N,M=map(int,input().split())
-Dict={i:[] for i in range(1,N+1)}
-#print(Dict)
-for _ in range(M):
-    a,b=map(int,input().split())
-    Dict[a].append(b)
-    Dict[b].append(a)
-#print(Dict)
+graph={i:[] for i in range(1,N+1)}
 
-mas=[]
-poddelca=[]
-DFS(Dict,1)
-mas.append(poddelca)
-poddelca=[]
+for _ in range(M):
+    u,v=map(int,input().split())
+    graph[u].append(v)
+    graph[v].append(u)
+
+start,end=map(int,input().split())
+
+visited=set()
+All=[]
+
 for i in range(1,N+1):
-    for j in range(len(mas)):
-        if i not in mas[j]:
-            DFS(Dict,j)
-            mas.append(poddelca)
-            poddelca=[]
-print(mas)
+    if i not in visited:
+        component=[]
+        dfs(graph,i,visited,component)
+        All.append(sorted(component))
+
+
+YN=any(start in i and end in i for i in All)
+if YN: print("YES")
+else: print("NO")
+
+print(len(All))
+
+for i, j in enumerate(All,1):
+    print(str(i)+': '+str(j))
